@@ -27,14 +27,12 @@ def search(request):
         sub_pages = []
 
         for entry in entries:
-            if title.upper() in entry.upper():
+            if title.lower() in entry.lower():
                 sub_pages.append(entry)
 
         for entry in entries:
-            if title.upper() == entry.upper():
-                markdowner = Markdown()
-                return render(request, 'encyclopedia/show_wiki.html',
-                              {'page': markdowner.convert(util.get_entry(title)), 'pageTitle': title})
+            if entry.lower() == title.lower():
+                return redirect('show', title=entry)
             elif sub_pages:
                 return render(request, 'encyclopedia/search.html', {'subs': sub_pages})
             else:
